@@ -18,7 +18,7 @@ cd $SCRIPT_DIR/../
 
 function cleanUp() {
   # Cleanup kernel
-  make kernel-unload
+  make kernel-unload/fast
 }
 
 # Run build host provisions and install library dependencies.
@@ -37,7 +37,7 @@ make kernel-build
 trap cleanUp EXIT INT TERM
 
 # Load osquery kernel (optional).
-make kernel-load
+make kernel-load/fast
 
 # NODE_LABELS is defined in the jenkins environment, and provides a wasy for
 # us to detect what type of box we are running on.  (ie. osx10, centos6).
@@ -46,10 +46,10 @@ NODE=$(echo $NODE_LABELS | awk '{print $NF}')
 mkdir -p $OUTDIR
 
 export BENCHMARK_TO_FILE="--benchmark_format=csv :>$OUTDIR/$NODE-benchmark.csv"
-make run-benchmark
+make run-benchmark/fast
 
 export BENCHMARK_TO_FILE="--benchmark_format=csv :>$OUTDIR/$NODE-kernel-benchmark.csv"
-make run-kernel-benchmark
+make run-kernel-benchmark/fast
 
 
 exit 0

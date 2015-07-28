@@ -18,7 +18,7 @@ cd $SCRIPT_DIR/../
 
 function cleanUp() {
   # Cleanup kernel
-  make kernel-unload || sudo reboot
+  make kernel-unload/fast || sudo reboot
 }
 
 # Run build host provisions and install library dependencies.
@@ -37,12 +37,12 @@ make kernel-build
 trap cleanUp EXIT INT TERM
 
 # Load osquery kernel (optional).
-make kernel-load
+make kernel-load/fast
 
 # Run code unit and integration tests.
-make test
+make test/fast
 
 # Run kernel unit and integration tests (optional).
-make kernel-test
+make kernel-test/fast
 
 exit 0
